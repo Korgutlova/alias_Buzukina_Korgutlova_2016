@@ -1,1 +1,2 @@
-# alias_Buzukina_Korgutlova_2016
+# Buzukina, Korgutlova 2016
+# Alias
