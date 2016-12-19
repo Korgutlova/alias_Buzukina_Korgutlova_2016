@@ -19,11 +19,7 @@
     <Label layoutX="481.0" layoutY="31.0" text="02:38" />
     <Label layoutX="481.0" layoutY="60.0" text="SCORE:" />
     <Label layoutX="481.0" layoutY="78.0" text="12" />
-    <Label layoutX="481.0" layoutY="115.0" text="TEAM1:" />
-    <Label layoutX="482.0" layoutY="138.0" text="TEAM2:" />
-    <Label layoutX="481.0" layoutY="162.0" text="TEAM3:" />
-    <Label layoutX="541.0" layoutY="115.0" text="14" />
-    <Label layoutX="541.0" layoutY="138.0" text="11" />
-    <Label layoutX="546.0" layoutY="162.0" text="7" />
+    <Label layoutX="480.0" layoutY="115.0" text="OPPONENT TEAM:" />
+    <Label layoutX="481.0" layoutY="134.0" text="14" />
   </children>
 </AnchorPane>
