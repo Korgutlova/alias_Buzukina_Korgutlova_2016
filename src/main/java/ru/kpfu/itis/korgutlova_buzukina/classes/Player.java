@@ -6,7 +6,7 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 
-public class Player implements Runnable {
+public class Player {
     private Game game;
     private String name;
     private Team team;
@@ -15,29 +15,36 @@ public class Player implements Runnable {
     private PrintWriter printWriter;
     private BufferedReader bufferedReader;
 
-    public Player(Game game, Socket socket) throws IOException {
-        this.game = game;
+    public Player(Socket socket, Team team) throws IOException {
         this.socket = socket;
-        this.thread = new Thread(this);
-        thread.start();
+        this.team = team;
         this.bufferedReader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
         this.printWriter = new PrintWriter(socket.getOutputStream(), true);
         //this.name = bufferedReader.readLine();
     }
 
-    @Override
-    public void run() {
-        try {
-            String message = bufferedReader.readLine();
-            for (Player player: game.getPlayerList()) {
-                player.getPrintWriter().println(message);
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
+//    public void start(){
+//        this.thread = new Thread(this);
+//        thread.start();
+//    }
+//
+//    @Override
+//    public void run() {
+//        try {
+//            String message = bufferedReader.readLine();
+//           for (Player player: game.getPlayerList()) {
+//              player.getPrintWriter().println(message);
+//            }
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//    }
 
     public PrintWriter getPrintWriter() {
         return printWriter;
+    }
+
+    public void setGame(Game game) {
+        this.game = game;
     }
 }

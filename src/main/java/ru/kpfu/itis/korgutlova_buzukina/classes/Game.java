@@ -7,11 +7,21 @@ public class Game implements Runnable {
     private Thread thread;
     private int rounds;
     private int currentRound;
-    private Team teamRed;
-    private Team teamBlue;
+    private Team teamOne;
+    private Team teamTwo;
+    private GameDictionary dictionary;
 
-    public Game(List<Player> playerList) {
+    public Game(List<Player> playerList, Team teamOne, Team teamTwo) {
         this.playerList = playerList;
+        this.teamOne = teamOne;
+        this.teamTwo = teamTwo;
+        for(Player player: playerList){
+            player.setGame(this);
+//            player.start();
+        }
+        dictionary = new GameDictionary();
+        System.out.println(dictionary.getWord());
+        System.out.println(dictionary.getWord());
         this.thread = new Thread(this);
         thread.start();
         System.out.println("Game create");
@@ -19,7 +29,6 @@ public class Game implements Runnable {
 
     @Override
     public void run() {
-        while (playerList.size() != 6) ;
         System.out.println("Game started");
 
     }
