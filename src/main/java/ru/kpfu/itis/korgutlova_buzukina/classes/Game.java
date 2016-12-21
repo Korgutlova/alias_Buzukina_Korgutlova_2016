@@ -15,9 +15,9 @@ public class Game implements Runnable {
         this.playerList = playerList;
         this.teamOne = teamOne;
         this.teamTwo = teamTwo;
-        for(Player player: playerList){
+        for (Player player : playerList) {
             player.setGame(this);
-//            player.start();
+            player.start();
         }
         dictionary = new GameDictionary();
         System.out.println(dictionary.getWord());

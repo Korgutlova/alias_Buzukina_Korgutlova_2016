@@ -18,9 +18,6 @@ public class GameDictionary {
         } catch (IOException e) {
             e.printStackTrace();
         }
-//        System.out.println(words.get(8));
-//        words.remove(8);
-//        words.get(8);
     }
 
     public String getWord(){

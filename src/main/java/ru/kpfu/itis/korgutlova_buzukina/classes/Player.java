@@ -6,7 +6,7 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 
-public class Player {
+public class Player implements Runnable {
     private Game game;
     private String name;
     private Team team;
@@ -23,22 +23,27 @@ public class Player {
         //this.name = bufferedReader.readLine();
     }
 
-//    public void start(){
-//        this.thread = new Thread(this);
-//        thread.start();
-//    }
-//
-//    @Override
-//    public void run() {
-//        try {
-//            String message = bufferedReader.readLine();
-//           for (Player player: game.getPlayerList()) {
-//              player.getPrintWriter().println(message);
-//            }
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//    }
+    public void start() {
+        this.thread = new Thread(this);
+        thread.start();
+    }
+
+    @Override
+    public void run() {
+        String message;
+        while (true) {
+            try {
+                if(bufferedReader.ready()) {
+                    message = bufferedReader.readLine();
+                    for (Player player : game.getPlayerList()) {
+                        player.getPrintWriter().println(message);
+                    }
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 
     public PrintWriter getPrintWriter() {
         return printWriter;
