@@ -1,20 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.image.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.paint.*?>
-<?import javafx.scene.text.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
-            prefHeight="400.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="main.java.ru.kpfu.itis.buzukina_korgutlova.controllers.MenuController" xmlns="http://javafx.com/javafx/2.2">
+<AnchorPane id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.76-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ru.kpfu.itis.korgutlova_buzukina.controllers.MenuController">
   <children>
     <ImageView id="Копия background.jpg" fitHeight="407.0" fitWidth="600.0" layoutX="0.0" layoutY="1.0">
       <image>
-        <Image url="@../view/static/background.jpg" preserveRatio="true" smooth="true" />
+        <Image preserveRatio="true" smooth="true" url="@../view/static/background.jpg" />
       </image>
     </ImageView>
     <Button cancelButton="false" defaultButton="true" layoutX="248.0" layoutY="162.0" mnemonicParsing="false" prefHeight="42.0" prefWidth="129.0" text="PLAY" textFill="WHITE" textOverrun="ELLIPSIS">
@@ -22,7 +19,7 @@
         <Font name="System Bold" size="20.0" fx:id="x1" />
       </font>
     </Button>
-    <Button font="$x1" layoutX="492.0" layoutY="350.0" minHeight="27.0" mnemonicParsing="false" opacity="0.76" prefHeight="27.0" prefWidth="94.0" text="EXIT" />
+    <Button onMouseClicked="#clickOnExitButton" font="$x1" layoutX="492.0" layoutY="350.0" minHeight="27.0" mnemonicParsing="false" opacity="0.76" prefHeight="27.0" prefWidth="94.0" text="EXIT" />
     <Label focusTraversable="false" layoutX="28.0" layoutY="125.0" opacity="1.0" prefWidth="572.0" text="Welcome to ALIAS - the most exciting game in the world!" textAlignment="CENTER" textFill="WHITE">
       <font>
         <Font name="System Bold Italic" size="19.0" />
