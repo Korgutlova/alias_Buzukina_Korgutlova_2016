@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.paint.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2">
+  <children>
+    <TextField layoutX="14.0" layoutY="351.0" prefHeight="23.0" prefWidth="219.0" />
+    <TextArea layoutX="14.0" layoutY="14.0" prefHeight="321.0" prefWidth="442.0" wrapText="true" />
+    <Button layoutX="246.0" layoutY="351.0" mnemonicParsing="false" text="send" />
+    <Label layoutX="506.0" layoutY="256.0" text="word:" />
+    <Label layoutX="470.0" layoutY="20.0" text="TIME LEFT:" />
+    <Label layoutX="469.0" layoutY="70.0" text="SCORE:" />
+    <Button layoutX="487.0" layoutY="314.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="77.0" text="SKIP">
+      <font>
+        <Font size="16.0" />
+      </font>
+    </Button>
+    <Label layoutX="470.0" layoutY="124.0" text="" />
+    <TextField layoutX="470.0" layoutY="37.0" prefWidth="53.0" />
+    <TextField layoutX="469.0" layoutY="90.0" prefWidth="53.0" />
+    <Label layoutX="471.0" layoutY="154.0" text="TEAM 1:" />
+    <Label layoutX="471.0" layoutY="177.0" text="TEAM 2:" />
+    <Label layoutX="470.0" layoutY="199.0" text="TEAM 3:" />
+    <TextField layoutX="527.0" layoutY="151.0" prefWidth="53.0" />
+    <Label layoutX="466.0" layoutY="132.0" text="OPPONENT SCORE:" />
+    <TextField layoutX="527.0" layoutY="173.0" prefWidth="53.0" />
+    <TextField layoutX="527.0" layoutY="196.0" prefWidth="53.0" />
+    <TextField layoutX="499.0" layoutY="274.0" prefWidth="53.0" />
+  </children>
+</AnchorPane>
