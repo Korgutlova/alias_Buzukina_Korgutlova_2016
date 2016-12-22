@@ -9,7 +9,7 @@ import java.util.List;
 public class Server {
     private List<Game> list;
     private final int PORT = 3456;
-    private final int NUMBER = 6;
+    private final int NUMBER = 2;
 
     public Server() {
         init();

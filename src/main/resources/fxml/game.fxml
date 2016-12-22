@@ -6,13 +6,9 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 
+<?import javafx.scene.text.Font?>
 <AnchorPane id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.76-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ru.kpfu.itis.korgutlova_buzukina.controllers.GameController">
   <children>
-    <!--<ScrollPane layoutX="14.0" layoutY="14.0" prefHeight="310.00010681152344" prefWidth="451.0">-->
-      <!--<content>-->
-        <!--<AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="255.0" />-->
-      <!--</content>-->
-    <!--</ScrollPane>-->
     <TextArea fx:id="chat" layoutX="13.0" layoutY="24.0" prefHeight="300.0" prefWidth="427.0"/>
     <TextField fx:id="message" layoutX="14.0" layoutY="344.0" prefHeight="26.0" prefWidth="218.0" />
     <Button layoutX="246.0" layoutY="347.0" mnemonicParsing="false" onMouseClicked="#sendMessage" text="send" />
@@ -22,5 +18,12 @@
     <Label layoutX="481.0" layoutY="78.0" text="12" />
     <Label layoutX="480.0" layoutY="115.0" text="OPPONENT TEAM:" />
     <Label layoutX="481.0" layoutY="134.0" text="14" />
+    <Button fx:id="skip" layoutX="487.0" layoutY="314.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="77.0" text="SKIP">
+      <font>
+        <Font size="16.0" />
+      </font>
+    </Button>
+    <Label fx:id="labelWord" layoutX="506.0" layoutY="256.0" text="Word:"/>
+    <Label fx:id="word" layoutX="506.0" layoutY="256.0"/>
   </children>
 </AnchorPane>

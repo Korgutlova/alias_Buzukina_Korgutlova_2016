@@ -10,6 +10,7 @@ import ru.kpfu.itis.korgutlova_buzukina.controllers.MenuController;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.Scanner;
@@ -36,8 +37,8 @@ public class MainApp extends Application {
         int port = 3456;
         String host = "localhost";
         Socket s = new Socket(host, port);
-        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(s.getInputStream()));
-        PrintWriter printWriter = new PrintWriter(s.getOutputStream(), true);
+        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(s.getInputStream(), "UTF-8"));
+        PrintWriter printWriter = new PrintWriter(new OutputStreamWriter(s.getOutputStream(), "UTF-8"), true);
         gameController.setIO(bufferedReader, printWriter);
     }
 

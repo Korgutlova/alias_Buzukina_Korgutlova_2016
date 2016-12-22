@@ -6,14 +6,15 @@ public class Team {
 
     public Team(String name) {
         this.name = name;
+        this.score = 0;
     }
 
-    public void addScore(int score){
-        this.score += score;
+    public void addScore(){
+        this.score += 1;
     }
 
-    private void degScore(int score){
-        this.score -= score;
+    public void degScore(){
+        this.score -= 1;
     }
 
     public int getScore() {

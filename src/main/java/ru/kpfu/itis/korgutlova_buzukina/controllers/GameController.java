@@ -1,5 +1,8 @@
 package ru.kpfu.itis.korgutlova_buzukina.controllers;
 
+import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
@@ -8,19 +11,29 @@ import javafx.stage.Stage;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.net.URL;
+import java.util.ResourceBundle;
 
-public class GameController {
+public class GameController implements Initializable{
     public TextField message;
     public TextArea chat;
+    public Button skip;
+    public Label labelWord;
+    public Label word;
     private Stage stage;
     private BufferedReader bufferedReader;
     private PrintWriter printWriter;
+
     public void sendMessage(MouseEvent mouseEvent) throws IOException {
         printWriter.println(message.getText());
+        System.out.println(message.getText());
         message.setText("");
         while (bufferedReader.ready()){
-            chat.setText(chat.getText() + "\n" + bufferedReader.readLine());
+            String line = bufferedReader.readLine();
+            System.out.println(line);
+            chat.setText(chat.getText() + "\n" + line);
         }
+        System.out.println(chat.getText());
     }
 
     public void setStage(Stage stage) {
@@ -30,5 +43,13 @@ public class GameController {
     public void setIO(BufferedReader bufferedReader, PrintWriter printWriter) {
         this.bufferedReader = bufferedReader;
         this.printWriter = printWriter;
+        printWriter.println("Natasha");
+    }
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        skip.setVisible(false);
+        labelWord.setVisible(false);
+        word.setVisible(false);
     }
 }
