@@ -4,6 +4,7 @@ import java.util.List;
 
 public class Game implements Runnable {
     private List<Player> playerList;
+    private Player headPlayer;
     private Thread thread;
     private int rounds;
     private int currentRound;
@@ -49,5 +50,13 @@ public class Game implements Runnable {
 
     public void changeWord(){
         this.currentWord = getDictionary().getWord();
+    }
+
+    public Player getHeadPlayer() {
+        return headPlayer;
+    }
+
+    public void setHeadPlayer(Player headPlayer) {
+        this.headPlayer = headPlayer;
     }
 }

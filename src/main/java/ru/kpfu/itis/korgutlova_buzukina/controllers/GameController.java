@@ -23,6 +23,7 @@ public class GameController implements Initializable{
     private Stage stage;
     private BufferedReader bufferedReader;
     private PrintWriter printWriter;
+    private boolean heading;
 
     public void sendMessage(MouseEvent mouseEvent) throws IOException {
         printWriter.println(message.getText());
@@ -30,6 +31,9 @@ public class GameController implements Initializable{
         message.setText("");
         while (bufferedReader.ready()){
             String line = bufferedReader.readLine();
+            if(line.startsWith("GAME_WORD ") && heading){
+                word.setText(line.substring(10));
+            }
             System.out.println(line);
             chat.setText(chat.getText() + "\n" + line);
         }
@@ -48,8 +52,13 @@ public class GameController implements Initializable{
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        skip.setVisible(false);
-        labelWord.setVisible(false);
-        word.setVisible(false);
+        skip.setVisible(true);
+        labelWord.setVisible(true);
+        word.setVisible(true);
+        heading = true;
+    }
+
+    public void skipWord(MouseEvent mouseEvent) {
+        printWriter.println("SKIP");
     }
 }
