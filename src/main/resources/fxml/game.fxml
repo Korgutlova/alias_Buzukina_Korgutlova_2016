@@ -5,24 +5,19 @@
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.76-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ru.kpfu.itis.korgutlova_buzukina.controllers.GameController">
+<AnchorPane stylesheets="@../view/static/style.css" id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.76-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ru.kpfu.itis.korgutlova_buzukina.controllers.GameController">
   <children>
-    <TextArea fx:id="chat" layoutX="13.0" layoutY="24.0" prefHeight="300.0" prefWidth="427.0" />
-    <TextField fx:id="message" layoutX="14.0" layoutY="344.0" prefHeight="26.0" prefWidth="218.0" />
-    <Button layoutX="246.0" layoutY="347.0" mnemonicParsing="false" onMouseClicked="#sendMessage" text="send" />
+    <TextArea styleClass="chat" fx:id="chat" layoutX="13.0" layoutY="24.0" prefHeight="300.0" prefWidth="427.0" />
+    <TextArea fx:id="message" layoutX="14.0" layoutY="344.0" prefHeight="26.0" prefWidth="218.0" />
+    <Button fx:id="send" layoutX="246.0" layoutY="347.0" mnemonicParsing="false" onMouseClicked="#sendMessage" text="send" />
     <Label layoutX="481.0" layoutY="15.0" text="TIME LEFT:" />
-    <Label layoutX="481.0" layoutY="31.0" text="02:38" />
+    <Label fx:id="timeLabel" layoutX="481.0" layoutY="31.0"/>
     <Label layoutX="481.0" layoutY="60.0" text="SCORE:" />
     <Label layoutX="481.0" layoutY="78.0" text="12" />
     <Label layoutX="480.0" layoutY="115.0" text="OPPONENT TEAM:" />
     <Label layoutX="481.0" layoutY="134.0" text="14" />
-    <Button fx:id="skip" layoutX="481.0" layoutY="314.0" mnemonicParsing="false" onMouseClicked="#skipWord" prefHeight="37.0" prefWidth="91.0" text="SKIP">
-      <font>
-        <Font size="16.0" />
-      </font>
-    </Button>
+    <Button fx:id="skip" layoutX="476.0" layoutY="314.0" mnemonicParsing="false" onMouseClicked="#skipWord" prefHeight="32.0" prefWidth="85.0" style="-fx-background-color: #f6a086; -fx-font-weight: bold" text="SKIP" />
     <Label fx:id="labelWord" layoutX="482.0" layoutY="248.0" prefHeight="17.0" prefWidth="57.0" text="Word:" />
     <Label fx:id="word" layoutX="484.0" layoutY="273.0" prefHeight="25.0" prefWidth="85.0" />
   </children>

@@ -1,0 +1,13 @@
+.fon {
+    -fx-background-image: url(background.jpg) 400px 600px;
+    -fx-background-size: cover;
+}
+
+.chat:focused {
+    -fx-focus-color: transparent;
+}
+
+.chat {
+    -fx-border-color: black;
+    -fx-border-width: 1;
+}

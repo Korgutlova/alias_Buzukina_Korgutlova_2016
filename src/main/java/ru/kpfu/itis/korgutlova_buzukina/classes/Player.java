@@ -32,48 +32,68 @@ public class Player implements Runnable {
             try {
                 if (bufferedReader.ready()) {
                     message = bufferedReader.readLine();
+                    Player headPlayer = game.getPlayerList().get(game.getHeadPlayer());
                     //слово угадано
                     if (message.equals(game.getCurrentWord())) {
-                        if (this.equals(game.getHeadPlayer())) {
-                            message += "\n" + this.name + " ведущий не имеет право отвечать! -1 балл команде!";
+                        if (this.equals(headPlayer)) {
+                            message = this.name + " : " + message;
+                            message += "\n" + this.name + " ведущий не имеет право отвечать!";
+                            message += "\n" + team.getName() + " потеряла 1 очко";
                             team.degScore();
                         } else {
-                            message += "\n" + this.name + " разгадала слово " + message;
-                            team.addScore();
+                            if (!this.team.equals(headPlayer.team)) {
+                                message = this.name + " : " + message;
+                                message += "\n" + this.name + " - игрок из другой команды угадал слово " + message;
+                                message += "\n" + team.getName() + " потеряла 1 очко";
+                                team.degScore();
+                            } else {
+                                message = this.name + " : " + message;
+                                message += "\n" + this.name + " разгадала слово " + message;
+                                message += "\n" + team.getName() + " заработала 1 очко";
+                                team.addScore();
+                            }
                         }
                         game.changeWord();
                         System.out.println(game.getCurrentWord());
                         message += "\n" + "GAME_SCORE " + team.getName() + " " + team.getScore();
-                        game.getHeadPlayer().printWriter.println("GAME_WORD " + game.getCurrentWord());
-                    }
+                        headPlayer.getPrintWriter().println("GAME_WORD " + game.getCurrentWord());
 
-                    //смена слова
-                    if (message.equals("SKIP")) {
+                    } else if (message.equals("GAME_SKIP")) {
                         message = this.name + " пропустил слово " + game.getCurrentWord();
                         message += "\n" + team.getName() + " потеряла 1 очко";
                         team.degScore();
                         game.changeWord();
                         printWriter.println("GAME_WORD " + game.getCurrentWord());
-                    }
 
-                    //смена названия команды
-                    if (message.startsWith("NAME_TEAM ")) {
+                    } else if (message.startsWith("NAME_TEAM ")) {
                         String oldName = team.getName();
                         team.setName(message.substring(9));
                         message = "NAME_TEAM " + oldName + " " + team.getName();
                         message += "\n" + this.name + " изменил назване команды на " + team.getName();
-                        break;
+
+                    } else if (message.startsWith("GAME_HEADING")) {
+                        Player player = game.getPlayerList().get(game.getNewHeadPlayer());
+                        player.getPrintWriter().println("GAME_HEADING");
+                        message = "Ведущий в этом раунде " + player.getName();
+
+                    } else {
+                        message = this.name + " : " + message;
                     }
 
                     //Всем рассылаются сообщения
                     for (Player player : game.getPlayerList()) {
-                        player.getPrintWriter().println(this.name + " : " + message);
+                        player.getPrintWriter().println(message);
                     }
+
                 }
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
+    }
+
+    public String getName() {
+        return name;
     }
 
     public PrintWriter getPrintWriter() {

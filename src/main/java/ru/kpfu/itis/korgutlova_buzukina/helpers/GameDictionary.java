@@ -1,4 +1,4 @@
-package ru.kpfu.itis.korgutlova_buzukina.classes;
+package ru.kpfu.itis.korgutlova_buzukina.helpers;
 
 import java.io.BufferedReader;
 import java.io.IOException;

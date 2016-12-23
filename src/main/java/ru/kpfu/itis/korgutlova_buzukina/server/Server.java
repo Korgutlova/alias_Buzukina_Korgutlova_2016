@@ -1,4 +1,8 @@
-package ru.kpfu.itis.korgutlova_buzukina.classes;
+package ru.kpfu.itis.korgutlova_buzukina.server;
+
+import ru.kpfu.itis.korgutlova_buzukina.classes.Game;
+import ru.kpfu.itis.korgutlova_buzukina.classes.Player;
+import ru.kpfu.itis.korgutlova_buzukina.classes.Team;
 
 import java.io.IOException;
 import java.net.ServerSocket;
@@ -22,7 +26,7 @@ public class Server {
     public void go() throws IOException {
         ServerSocket ss = new ServerSocket(PORT);
         while (true) {
-            List<Player> players = new ArrayList<>();
+            ArrayList<Player> players = new ArrayList<>();
             Team teamRed = new Team("Red");
             Team teamBlue = new Team("Blue");
             while(players.size() != NUMBER){

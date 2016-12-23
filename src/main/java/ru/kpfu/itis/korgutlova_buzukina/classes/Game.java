@@ -1,36 +1,35 @@
 package ru.kpfu.itis.korgutlova_buzukina.classes;
 
+import ru.kpfu.itis.korgutlova_buzukina.helpers.GameDictionary;
+
+import java.util.ArrayList;
 import java.util.List;
 
-public class Game implements Runnable {
-    private List<Player> playerList;
-    private Player headPlayer;
+public class Game {
+    private ArrayList<Player> playerList;
+    private int headPlayer;
     private Thread thread;
-    private int rounds;
-    private int currentRound;
     private String currentWord;
     private Team teamOne;
     private Team teamTwo;
     private GameDictionary dictionary;
 
-    public Game(List<Player> playerList, Team teamOne, Team teamTwo) {
+    public Game(ArrayList<Player> playerList, Team teamOne, Team teamTwo) {
         this.playerList = playerList;
         this.teamOne = teamOne;
         this.teamTwo = teamTwo;
         for (Player player : playerList) {
             player.setGame(this);
+            player.getPrintWriter().println("Game started");
             player.start();
         }
         dictionary = new GameDictionary();
         this.currentWord = dictionary.getWord();
-        this.thread = new Thread(this);
-        thread.start();
-        System.out.println("Game create");
-    }
-
-    @Override
-    public void run() {
-        System.out.println("Game started");
+        playerList.get(0).getPrintWriter().println("GAME_HEADING");
+        headPlayer = 0;
+        for(Player player: playerList){
+            player.getPrintWriter().println("Ведущий в этом раунде " + playerList.get(0).getName());
+        }
     }
 
     public List<Player> getPlayerList() {
@@ -44,6 +43,7 @@ public class Game implements Runnable {
     public void setCurrentWord(String currentWord) {
         this.currentWord = currentWord;
     }
+
     public GameDictionary getDictionary(){
         return dictionary;
     }
@@ -52,11 +52,21 @@ public class Game implements Runnable {
         this.currentWord = getDictionary().getWord();
     }
 
-    public Player getHeadPlayer() {
+    public int getHeadPlayer() {
         return headPlayer;
     }
 
-    public void setHeadPlayer(Player headPlayer) {
+    public void setHeadPlayer(int headPlayer) {
         this.headPlayer = headPlayer;
+    }
+
+    public int getNewHeadPlayer(){
+       if(headPlayer != playerList.size() - 1){
+           headPlayer += 1;
+           return headPlayer;
+       } else {
+           headPlayer = 0;
+           return headPlayer;
+       }
     }
 }
