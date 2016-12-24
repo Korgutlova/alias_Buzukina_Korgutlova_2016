@@ -13,7 +13,7 @@ import java.util.List;
 public class Server {
     private List<Game> list;
     private final int PORT = 3456;
-    private final int NUMBER = 2;
+    private final int NUMBER = 6;
 
     public Server() {
         init();
@@ -38,10 +38,6 @@ public class Server {
         }
     }
 
-    public static void main(String[] args) throws IOException {
-        (new Server()).go();
-    }
-
     public void addPlayer(ServerSocket ss, List<Player> players, Team team) throws IOException {
         Socket socket = ss.accept();
         Player playerNew = new Player(socket, team);
@@ -50,4 +46,9 @@ public class Server {
         team.addPlayer(playerNew.getName());
         System.out.println("Client connected");
     }
+
+    public static void main(String[] args) throws IOException {
+        (new Server()).go();
+    }
+
 }

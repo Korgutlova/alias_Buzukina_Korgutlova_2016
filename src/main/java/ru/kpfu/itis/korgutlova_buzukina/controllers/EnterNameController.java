@@ -19,6 +19,8 @@ public class EnterNameController implements Initializable {
     private Scene sceneMenu;
     private static Stage stage;
     private Scene sceneEnterName;
+    private final static int PORT = 3456;
+    private final static String HOST = "localhost";
 
     public static void setStage(Stage stage) {
         EnterNameController.stage = stage;
@@ -30,9 +32,7 @@ public class EnterNameController implements Initializable {
 
 
     public void readName(MouseEvent mouseEvent) throws IOException, InterruptedException {
-        int port = 3456;
-        String host = "localhost";
-        Socket s = new Socket(host, port);
+        Socket s = new Socket(HOST, PORT);
         BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(s.getInputStream(), "UTF-8"));
         PrintWriter printWriter = new PrintWriter(new OutputStreamWriter(s.getOutputStream(), "UTF-8"), true);
         printWriter.println(name.getText());

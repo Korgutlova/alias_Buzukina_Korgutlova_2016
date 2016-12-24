@@ -28,7 +28,8 @@ public class Player implements Runnable {
     @Override
     public void run() {
         String message;
-        while (true) {
+        boolean flag = true;
+        while (flag) {
             try {
                 if (bufferedReader.ready()) {
                     message = bufferedReader.readLine();
@@ -73,7 +74,9 @@ public class Player implements Runnable {
                         message = "Ведущий в этом раунде " + player.getName();
 
                     } else {
-                        if (!message.equals("SUCCESS")) {
+                        if(message.equals("GAME FINISHED")){
+                            flag = false;
+                        } else if (!message.equals("SUCCESS")) {
                             message = this.name + " : " + message;
                         }
                     }

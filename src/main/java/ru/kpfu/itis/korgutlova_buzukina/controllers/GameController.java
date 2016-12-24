@@ -5,14 +5,12 @@ import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.concurrent.Task;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
@@ -33,12 +31,17 @@ public class GameController implements Initializable {
     public Label timeLabel;
     public Label redTeamScore;
     public Label blueTeamScore;
+    public Label resultLabel;
+    public Button endButton;
     private Stage stage;
     private BufferedReader bufferedReader;
     private PrintWriter printWriter;
     private boolean heading;
     private Scene sceneGame;
     private Scene sceneMenu;
+    private final static int NUMBER = 6;
+    private final static int ROUND = 1;
+    private final static int ROUND_TIME = 180;
 
     public void sendMessage(MouseEvent mouseEvent) throws IOException {
         printWriter.println(message.getText());
@@ -66,6 +69,8 @@ public class GameController implements Initializable {
         team.setEditable(false);
         send.setVisible(false);
         message.setVisible(false);
+        endButton.setVisible(false);
+        resultLabel.setVisible(false);
         heading(false);
     }
 
@@ -77,12 +82,12 @@ public class GameController implements Initializable {
                 Platform.runLater(() -> {
                             try {
                                 chat.setText(bufferedReader.readLine());
-                                String [] line = bufferedReader.readLine().split("%");
+                                String[] line = bufferedReader.readLine().split("%");
                                 String color = (line[1].equals("Red") ? "darksalmon" : "cornflowerblue");
                                 chat.appendText("\nYou in " + line[1] + " team!");
                                 send.setStyle("-fx-background-color: " + color);
                                 int i = 2;
-                                while(i < line.length){
+                                while (i < line.length) {
                                     team.appendText(line[i] + "\n");
                                     i++;
                                 }
@@ -107,19 +112,17 @@ public class GameController implements Initializable {
         th.start();
     }
 
-    public void startGame() throws IOException {
+    private void startGame() throws IOException {
         Task task = new Task<Void>() {
             @Override
             public Void call() throws Exception {
-                int round = 1;
-                int j = 0;
-                int number = 3;
-                int roundTime = 5;
+                int j = 1;
+                int i = 1;
                 changeHeading();
-                while (j < round) {
-                    int i = 1;
-                    while (i <= number) {
-                        Timeline timeline = timerAnimated(roundTime);
+                while (j <= ROUND) {
+                    i = 1;
+                    while (i <= NUMBER) {
+                        Timeline timeline = timerAnimated(ROUND_TIME);
                         while (timeline.getStatus().equals(Animation.Status.RUNNING)) {
                             while (bufferedReader.ready()) {
                                 if (timeline.getStatus().equals(Animation.Status.STOPPED)) {
@@ -139,13 +142,13 @@ public class GameController implements Initializable {
                         }
                         changeHeading();
                         i += 1;
-                        Thread.sleep(3000);
+                        Thread.sleep(2000);
                         send.setDisable(false);
                         skip.setDisable(false);
                     }
                     j++;
                 }
-                System.out.println("ufff");
+                printWriter.println("GAME FINISHED");
                 endGame();
                 return null;
             }
@@ -157,29 +160,25 @@ public class GameController implements Initializable {
     private void endGame() throws IOException {
         int redScore = Integer.parseInt(redTeamScore.getText());
         int blueScore = Integer.parseInt(blueTeamScore.getText());
-        String score = redScore + " : " + blueScore;
-        String result;
-        if(redScore > blueScore){
-            result = "Red team win!!!";
-        } else if(redScore == blueScore){
-            result = "Draw!!!";
-        } else {
-            result = "Blue team win!!!";
-        }
-        FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/endGame.fxml"));
-        AnchorPane root = loader.load();
-        EndGameController endGameController = loader.getController();
-        EndGameController.setStage(stage);
-        Scene sceneEndGame = new Scene(root);
-        endGameController.setSceneMenu(sceneMenu);
-        endGameController.setSceneEndGame(sceneEndGame);
-        endGameController.initLabel(score, result);
-        stage.setScene(sceneEndGame);
+        Platform.runLater(() -> {
+            if (redScore > blueScore) {
+                resultLabel.setText("Red team win!!!");
+                resultLabel.setStyle("-fx-text-fill: #b43a28");
+            } else if (redScore == blueScore) {
+                resultLabel.setText("Draw!!!");
+            } else {
+                resultLabel.setText("Blue team win!!!");
+                resultLabel.setStyle("-fx-text-fill: #6e94b4");
+            }
+        });
+        send.setDisable(true);
+        skip.setDisable(true);
+        chat.setVisible(false);
+        endButton.setVisible(true);
+        resultLabel.setVisible(true);
     }
 
-    public void addMessageToChat(String line){
-        System.out.println("kek");
-        System.out.println(line);
+    private void addMessageToChat(String line) {
         if (line.startsWith("GAME_WORD ") && heading) {
             Platform.runLater(() -> word.setText(line.substring(10)));
         } else if (line.startsWith("TEAM_SCORE ")) {
@@ -197,18 +196,20 @@ public class GameController implements Initializable {
     private void changeHeading() throws IOException {
         boolean flag = false;
         while (!flag) {
+            label:
             while (bufferedReader.ready()) {
                 String line = bufferedReader.readLine();
-                System.out.println(line);
-                System.out.println("main");
-                if (line.equals("GAME_HEADING")) {
-                    Platform.runLater(() -> heading(true));
-                    printWriter.println("SUCCESS");
-                } else if (line.equals("SUCCESS")) {
-                    flag = true;
-                    break;
-                } else{
-                    addMessageToChat(line);
+                switch (line) {
+                    case "GAME_HEADING":
+                        Platform.runLater(() -> heading(true));
+                        printWriter.println("SUCCESS");
+                        break;
+                    case "SUCCESS":
+                        flag = true;
+                        break label;
+                    default:
+                        addMessageToChat(line);
+                        break;
                 }
             }
         }
@@ -218,7 +219,7 @@ public class GameController implements Initializable {
         chat.appendText("\n" + line);
     }
 
-    public Timeline timerAnimated(int timeInSeconds) {
+    private Timeline timerAnimated(int timeInSeconds) {
         int[] time = {timeInSeconds};
         Platform.runLater(() -> timeLabel.setText((time[0] / 60) + ":" + ((time[0] % 60) < 10 ? "0" : "") + (time[0] % 60)));
         Timeline timeline = new Timeline(
@@ -253,5 +254,9 @@ public class GameController implements Initializable {
 
     public void setSceneMenu(Scene sceneMenu) {
         this.sceneMenu = sceneMenu;
+    }
+
+    public void returnMenu(MouseEvent mouseEvent) {
+        stage.setScene(sceneMenu);
     }
 }
