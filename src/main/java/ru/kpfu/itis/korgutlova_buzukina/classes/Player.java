@@ -43,7 +43,7 @@ public class Player implements Runnable {
                         } else {
                             if (!this.team.equals(headPlayer.team)) {
                                 message = this.name + " : " + message + "\n"
-                                        + this.name + " - игрок из другой команды угадал слово " + message
+                                        + this.name + " игрок из другой команды угадал слово " + message
                                         + "\n" + team.getName() + " потеряла 1 очко";
                                 team.degScore();
                             } else {
@@ -61,6 +61,7 @@ public class Player implements Runnable {
                         message = this.name + " пропустил слово " + game.getCurrentWord();
                         message += "\n" + team.getName() + " потеряла 1 очко";
                         team.degScore();
+                        message += "\n" + "TEAM_SCORE " + team.getName() + " " + team.getScore();
                         game.changeWord();
                         printWriter.println("GAME_WORD " + game.getCurrentWord());
 

@@ -16,18 +16,17 @@ import java.util.ResourceBundle;
 public class EnterNameController implements Initializable {
 
     public TextField name;
+    private Scene sceneMenu;
+    private static Stage stage;
+    private Scene sceneEnterName;
 
     public static void setStage(Stage stage) {
         EnterNameController.stage = stage;
     }
 
-    private static Stage stage;
-
     public void setSceneEnterName(Scene sceneEnterName) {
         this.sceneEnterName = sceneEnterName;
     }
-
-    private Scene sceneEnterName;
 
 
     public void readName(MouseEvent mouseEvent) throws IOException, InterruptedException {
@@ -44,11 +43,16 @@ public class EnterNameController implements Initializable {
         Scene sceneGame = new Scene(root);
         gameController.setSceneGame(sceneGame);
         gameController.setIO(bufferedReader, printWriter);
+        gameController.setSceneMenu(sceneMenu);
         stage.setScene(sceneGame);
         gameController.connectGame();
     }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+    }
+
+    public void setSceneMenu(Scene sceneMenu) {
+        this.sceneMenu = sceneMenu;
     }
 }

@@ -22,7 +22,7 @@ public class Game {
             player.setGame(this);
             player.getPrintWriter().println("Game started");
             String team = (player.getTeam().equals(teamOne)) ? "Red" : "Blue";
-            player.getPrintWriter().println("GAME_TEAM " + team);
+            player.getPrintWriter().println("GAME_TEAM%" + team +  player.getTeam().getPlayers());
             player.start();
         }
         dictionary = new GameDictionary();

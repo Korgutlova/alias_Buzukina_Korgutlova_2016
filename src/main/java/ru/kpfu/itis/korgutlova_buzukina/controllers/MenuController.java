@@ -22,6 +22,7 @@ public class MenuController implements Initializable{
         EnterNameController.setStage(stage);
         Scene sceneEnterName = new Scene(root);
         enterNameController.setSceneEnterName(sceneEnterName);
+        enterNameController.setSceneMenu(stage.getScene());
         stage.setScene(sceneEnterName);
     }
 

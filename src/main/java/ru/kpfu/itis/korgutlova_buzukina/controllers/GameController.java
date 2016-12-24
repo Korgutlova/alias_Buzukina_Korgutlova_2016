@@ -5,12 +5,14 @@ import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.concurrent.Task;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
@@ -24,6 +26,7 @@ public class GameController implements Initializable {
     public TextArea message;
     public TextArea chat;
     public Button skip;
+    public TextArea team;
     public Label labelWord;
     public Label word;
     public Button send;
@@ -35,6 +38,7 @@ public class GameController implements Initializable {
     private PrintWriter printWriter;
     private boolean heading;
     private Scene sceneGame;
+    private Scene sceneMenu;
 
     public void sendMessage(MouseEvent mouseEvent) throws IOException {
         printWriter.println(message.getText());
@@ -59,6 +63,7 @@ public class GameController implements Initializable {
         chat.setEditable(false);
         chat.setScrollTop(Double.MAX_VALUE);
         chat.setText("Ожидайте подключения других игроков");
+        team.setEditable(false);
         send.setVisible(false);
         message.setVisible(false);
         heading(false);
@@ -72,19 +77,26 @@ public class GameController implements Initializable {
                 Platform.runLater(() -> {
                             try {
                                 chat.setText(bufferedReader.readLine());
-                                if (bufferedReader.readLine().substring(10).equals("Red")) {
-                                    chat.appendText("\nYou in Red Team!");
-                                    send.setStyle("-fx-background-color: darksalmon");
-                                } else {
-                                    chat.appendText("\nYou in Blue Team!");
-                                    send.setStyle("-fx-background-color: cornflowerblue");
+                                String [] line = bufferedReader.readLine().split("%");
+                                String color = (line[1].equals("Red") ? "darksalmon" : "cornflowerblue");
+                                chat.appendText("\nYou in " + line[1] + " team!");
+                                send.setStyle("-fx-background-color: " + color);
+                                int i = 2;
+                                while(i < line.length){
+                                    team.appendText(line[i] + "\n");
+                                    i++;
                                 }
+                                team.setStyle("-fx-text-fill: " + color);
                             } catch (IOException e) {
                                 e.printStackTrace();
                             }
                             message.setVisible(true);
                             send.setVisible(true);
-                            startGame();
+                            try {
+                                startGame();
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
                         }
                 );
                 return null;
@@ -95,14 +107,14 @@ public class GameController implements Initializable {
         th.start();
     }
 
-    public void startGame() {
+    public void startGame() throws IOException {
         Task task = new Task<Void>() {
             @Override
             public Void call() throws Exception {
                 int round = 1;
                 int j = 0;
-                int number = 6;
-                int roundTime = 20;
+                int number = 3;
+                int roundTime = 5;
                 changeHeading();
                 while (j < round) {
                     int i = 1;
@@ -117,6 +129,7 @@ public class GameController implements Initializable {
                             }
                         }
                         send.setDisable(true);
+                        skip.setDisable(true);
                         Thread.sleep(1000);
                         int finalI1 = i;
                         Platform.runLater(() -> chat.appendText("\n" + finalI1 + " раунд закончен"));
@@ -126,22 +139,47 @@ public class GameController implements Initializable {
                         }
                         changeHeading();
                         i += 1;
-                        Thread.sleep(5000);
+                        Thread.sleep(3000);
                         send.setDisable(false);
+                        skip.setDisable(false);
                     }
                     j++;
                 }
+                System.out.println("ufff");
+                endGame();
                 return null;
             }
         };
         Thread th = new Thread(task);
-        th.setDaemon(true);
         th.start();
+    }
 
-
+    private void endGame() throws IOException {
+        int redScore = Integer.parseInt(redTeamScore.getText());
+        int blueScore = Integer.parseInt(blueTeamScore.getText());
+        String score = redScore + " : " + blueScore;
+        String result;
+        if(redScore > blueScore){
+            result = "Red team win!!!";
+        } else if(redScore == blueScore){
+            result = "Draw!!!";
+        } else {
+            result = "Blue team win!!!";
+        }
+        FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/endGame.fxml"));
+        AnchorPane root = loader.load();
+        EndGameController endGameController = loader.getController();
+        EndGameController.setStage(stage);
+        Scene sceneEndGame = new Scene(root);
+        endGameController.setSceneMenu(sceneMenu);
+        endGameController.setSceneEndGame(sceneEndGame);
+        endGameController.initLabel(score, result);
+        stage.setScene(sceneEndGame);
     }
 
     public void addMessageToChat(String line){
+        System.out.println("kek");
+        System.out.println(line);
         if (line.startsWith("GAME_WORD ") && heading) {
             Platform.runLater(() -> word.setText(line.substring(10)));
         } else if (line.startsWith("TEAM_SCORE ")) {
@@ -162,6 +200,7 @@ public class GameController implements Initializable {
             while (bufferedReader.ready()) {
                 String line = bufferedReader.readLine();
                 System.out.println(line);
+                System.out.println("main");
                 if (line.equals("GAME_HEADING")) {
                     Platform.runLater(() -> heading(true));
                     printWriter.println("SUCCESS");
@@ -210,5 +249,9 @@ public class GameController implements Initializable {
         skip.setVisible(bool);
         labelWord.setVisible(bool);
         word.setVisible(bool);
+    }
+
+    public void setSceneMenu(Scene sceneMenu) {
+        this.sceneMenu = sceneMenu;
     }
 }

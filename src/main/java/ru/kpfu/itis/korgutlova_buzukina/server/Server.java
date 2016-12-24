@@ -29,13 +29,9 @@ public class Server {
             ArrayList<Player> players = new ArrayList<>();
             Team teamRed = new Team("Red");
             Team teamBlue = new Team("Blue");
-            while(players.size() != NUMBER){
-                Socket socket = ss.accept();
-                players.add(new Player(socket, teamRed));
-                System.out.println("Client connected");
-                socket = ss.accept();
-                players.add(new Player(socket, teamBlue));
-                System.out.println("Client connected");
+            while (players.size() != NUMBER) {
+                addPlayer(ss, players, teamRed);
+                addPlayer(ss, players, teamBlue);
             }
             Game game = new Game(players, teamRed, teamBlue);
             list.add(game);
@@ -44,5 +40,14 @@ public class Server {
 
     public static void main(String[] args) throws IOException {
         (new Server()).go();
+    }
+
+    public void addPlayer(ServerSocket ss, List<Player> players, Team team) throws IOException {
+        Socket socket = ss.accept();
+        Player playerNew = new Player(socket, team);
+        players.add(playerNew);
+        while (playerNew.getName() == null) ;
+        team.addPlayer(playerNew.getName());
+        System.out.println("Client connected");
     }
 }
