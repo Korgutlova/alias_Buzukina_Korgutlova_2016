@@ -21,13 +21,16 @@ public class Game {
         for (Player player : playerList) {
             player.setGame(this);
             player.getPrintWriter().println("Game started");
+            String team = (player.getTeam().equals(teamOne)) ? "Red" : "Blue";
+            player.getPrintWriter().println("GAME_TEAM " + team);
             player.start();
         }
         dictionary = new GameDictionary();
         this.currentWord = dictionary.getWord();
         playerList.get(0).getPrintWriter().println("GAME_HEADING");
+        playerList.get(0).getPrintWriter().println("GAME_WORD " + currentWord);
         headPlayer = 0;
-        for(Player player: playerList){
+        for (Player player : playerList) {
             player.getPrintWriter().println("Ведущий в этом раунде " + playerList.get(0).getName());
         }
     }
@@ -44,11 +47,11 @@ public class Game {
         this.currentWord = currentWord;
     }
 
-    public GameDictionary getDictionary(){
+    public GameDictionary getDictionary() {
         return dictionary;
     }
 
-    public void changeWord(){
+    public void changeWord() {
         this.currentWord = getDictionary().getWord();
     }
 
@@ -60,13 +63,13 @@ public class Game {
         this.headPlayer = headPlayer;
     }
 
-    public int getNewHeadPlayer(){
-       if(headPlayer != playerList.size() - 1){
-           headPlayer += 1;
-           return headPlayer;
-       } else {
-           headPlayer = 0;
-           return headPlayer;
-       }
+    public int getNewHeadPlayer() {
+        if (headPlayer != playerList.size() - 1) {
+            headPlayer += 1;
+            return headPlayer;
+        } else {
+            headPlayer = 0;
+            return headPlayer;
+        }
     }
 }

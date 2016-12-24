@@ -10,7 +10,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import javafx.util.Duration;
@@ -29,6 +28,8 @@ public class GameController implements Initializable {
     public Label word;
     public Button send;
     public Label timeLabel;
+    public Label redTeamScore;
+    public Label blueTeamScore;
     private Stage stage;
     private BufferedReader bufferedReader;
     private PrintWriter printWriter;
@@ -37,7 +38,7 @@ public class GameController implements Initializable {
 
     public void sendMessage(MouseEvent mouseEvent) throws IOException {
         printWriter.println(message.getText());
-        message.setText("");
+        message.clear();
     }
 
     public void setStage(Stage stage) {
@@ -71,6 +72,13 @@ public class GameController implements Initializable {
                 Platform.runLater(() -> {
                             try {
                                 chat.setText(bufferedReader.readLine());
+                                if (bufferedReader.readLine().substring(10).equals("Red")) {
+                                    chat.appendText("\nYou in Red Team!");
+                                    send.setStyle("-fx-background-color: darksalmon");
+                                } else {
+                                    chat.appendText("\nYou in Blue Team!");
+                                    send.setStyle("-fx-background-color: cornflowerblue");
+                                }
                             } catch (IOException e) {
                                 e.printStackTrace();
                             }
@@ -92,37 +100,36 @@ public class GameController implements Initializable {
             @Override
             public Void call() throws Exception {
                 int round = 1;
-                int number = 4;
-                long roundTime = 15000;
+                int j = 0;
+                int number = 6;
+                int roundTime = 20;
                 changeHeading();
-                while (round < 2) {
-                    int i = 0;
-                    while (i < number) {
-                        long time = System.currentTimeMillis() + roundTime;
-                        Timeline timeline = timerAnimated(60);
+                while (j < round) {
+                    int i = 1;
+                    while (i <= number) {
+                        Timeline timeline = timerAnimated(roundTime);
                         while (timeline.getStatus().equals(Animation.Status.RUNNING)) {
                             while (bufferedReader.ready()) {
                                 if (timeline.getStatus().equals(Animation.Status.STOPPED)) {
                                     break;
                                 }
-                                String line = bufferedReader.readLine();
-                                if (line.startsWith("GAME_WORD ") && heading) {
-                                    Platform.runLater(() -> word.setText(line.substring(10)));
-                                } else {
-                                    Platform.runLater(() -> chat(line));
-                                }
+                                addMessageToChat(bufferedReader.readLine());
                             }
                         }
-                        int finalI = i;
-                        Platform.runLater(() -> chat.appendText("\n" + finalI + " раунд закончен"));
-                        i++;
+                        send.setDisable(true);
+                        Thread.sleep(1000);
+                        int finalI1 = i;
+                        Platform.runLater(() -> chat.appendText("\n" + finalI1 + " раунд закончен"));
                         if (heading) {
                             printWriter.println("GAME_HEADING");
                             Platform.runLater(() -> heading(false));
                         }
                         changeHeading();
+                        i += 1;
+                        Thread.sleep(5000);
+                        send.setDisable(false);
                     }
-                    round++;
+                    j++;
                 }
                 return null;
             }
@@ -134,15 +141,40 @@ public class GameController implements Initializable {
 
     }
 
-    private void changeHeading() throws IOException {
-        while(!bufferedReader.ready()) ;
-        String line = bufferedReader.readLine();
-        if (line.equals("GAME_HEADING")) {
-            Platform.runLater(() -> heading(true));
+    public void addMessageToChat(String line){
+        if (line.startsWith("GAME_WORD ") && heading) {
+            Platform.runLater(() -> word.setText(line.substring(10)));
+        } else if (line.startsWith("TEAM_SCORE ")) {
+            String[] array = line.split(" ");
+            if (array[1].equals("Red")) {
+                Platform.runLater(() -> redTeamScore.setText(array[2]));
+            } else {
+                Platform.runLater(() -> blueTeamScore.setText(array[2]));
+            }
         } else {
             Platform.runLater(() -> chat(line));
         }
     }
+
+    private void changeHeading() throws IOException {
+        boolean flag = false;
+        while (!flag) {
+            while (bufferedReader.ready()) {
+                String line = bufferedReader.readLine();
+                System.out.println(line);
+                if (line.equals("GAME_HEADING")) {
+                    Platform.runLater(() -> heading(true));
+                    printWriter.println("SUCCESS");
+                } else if (line.equals("SUCCESS")) {
+                    flag = true;
+                    break;
+                } else{
+                    addMessageToChat(line);
+                }
+            }
+        }
+    }
+
     private void chat(String line) {
         chat.appendText("\n" + line);
     }

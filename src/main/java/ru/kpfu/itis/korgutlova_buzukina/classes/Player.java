@@ -36,26 +36,25 @@ public class Player implements Runnable {
                     //слово угадано
                     if (message.equals(game.getCurrentWord())) {
                         if (this.equals(headPlayer)) {
-                            message = this.name + " : " + message;
-                            message += "\n" + this.name + " ведущий не имеет право отвечать!";
-                            message += "\n" + team.getName() + " потеряла 1 очко";
+                            message = this.name + " : " + message
+                                    + "\n" + this.name + " ведущий не имеет право отвечать!"
+                                    + "\n" + team.getName() + " потеряла 1 очко";
                             team.degScore();
                         } else {
                             if (!this.team.equals(headPlayer.team)) {
-                                message = this.name + " : " + message;
-                                message += "\n" + this.name + " - игрок из другой команды угадал слово " + message;
-                                message += "\n" + team.getName() + " потеряла 1 очко";
+                                message = this.name + " : " + message + "\n"
+                                        + this.name + " - игрок из другой команды угадал слово " + message
+                                        + "\n" + team.getName() + " потеряла 1 очко";
                                 team.degScore();
                             } else {
-                                message = this.name + " : " + message;
-                                message += "\n" + this.name + " разгадала слово " + message;
-                                message += "\n" + team.getName() + " заработала 1 очко";
+                                message = this.name + " : " + message
+                                        + "\n" + this.name + " разгадала слово " + message
+                                        + "\n" + team.getName() + " заработала 1 очко";
                                 team.addScore();
                             }
                         }
                         game.changeWord();
-                        System.out.println(game.getCurrentWord());
-                        message += "\n" + "GAME_SCORE " + team.getName() + " " + team.getScore();
+                        message += "\n" + "TEAM_SCORE " + team.getName() + " " + team.getScore();
                         headPlayer.getPrintWriter().println("GAME_WORD " + game.getCurrentWord());
 
                     } else if (message.equals("GAME_SKIP")) {
@@ -65,22 +64,19 @@ public class Player implements Runnable {
                         game.changeWord();
                         printWriter.println("GAME_WORD " + game.getCurrentWord());
 
-                    } else if (message.startsWith("NAME_TEAM ")) {
-                        String oldName = team.getName();
-                        team.setName(message.substring(9));
-                        message = "NAME_TEAM " + oldName + " " + team.getName();
-                        message += "\n" + this.name + " изменил назване команды на " + team.getName();
-
-                    } else if (message.startsWith("GAME_HEADING")) {
+                    } else if (message.equals("GAME_HEADING")) {
                         Player player = game.getPlayerList().get(game.getNewHeadPlayer());
+                        game.changeWord();
                         player.getPrintWriter().println("GAME_HEADING");
+                        player.getPrintWriter().println("GAME_WORD " + game.getCurrentWord());
                         message = "Ведущий в этом раунде " + player.getName();
 
                     } else {
-                        message = this.name + " : " + message;
+                        if (!message.equals("SUCCESS")) {
+                            message = this.name + " : " + message;
+                        }
                     }
 
-                    //Всем рассылаются сообщения
                     for (Player player : game.getPlayerList()) {
                         player.getPrintWriter().println(message);
                     }
@@ -102,5 +98,9 @@ public class Player implements Runnable {
 
     public void setGame(Game game) {
         this.game = game;
+    }
+
+    public Team getTeam() {
+        return team;
     }
 }

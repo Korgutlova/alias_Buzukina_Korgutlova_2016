@@ -11,3 +11,13 @@
     -fx-border-color: black;
     -fx-border-width: 1;
 }
+
+.redTeam {
+    -fx-font-weight: bold;
+    -fx-text-fill: red;
+}
+
+.blueTeam {
+    -fx-font-weight: bold;
+    -fx-text-fill: blue;
+}

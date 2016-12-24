@@ -7,14 +7,9 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
-import java.net.Socket;
 import java.net.URL;
 import java.util.ResourceBundle;
-import java.util.Scanner;
 
 public class MenuController implements Initializable{
     private static Stage stage;
