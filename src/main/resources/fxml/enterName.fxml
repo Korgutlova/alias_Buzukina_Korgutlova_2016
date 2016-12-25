@@ -5,13 +5,17 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
-
-<AnchorPane id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" styleClass="fon" stylesheets="@../view/static/style.css" xmlns="http://javafx.com/javafx/8.0.76-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ru.kpfu.itis.korgutlova_buzukina.controllers.EnterNameController">
-  <TextField fx:id="name" layoutX="187.0" layoutY="191.0" prefHeight="34.0" prefWidth="224.0" />
-  <Label layoutX="214.0" layoutY="140.0" prefHeight="42.0" prefWidth="157.0" style="-fx-font-weight: bold" text="Enter your name" textAlignment="CENTER" textFill="white">
-    <font>
-      <Font size="20.0" />
-    </font>
-  </Label>
-  <Button layoutX="257.0" layoutY="244.0" mnemonicParsing="false" onMouseClicked="#readName" prefHeight="28.0" prefWidth="77.0" style="-fx-font-weight: bold" text="PLAY" />
+<AnchorPane id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+            prefHeight="400.0" prefWidth="600.0" styleClass="fon" stylesheets="@../view/static/style.css"
+            xmlns="http://javafx.com/javafx/8.0.76-ea" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="ru.kpfu.itis.korgutlova_buzukina.controllers.EnterNameController">
+    <TextField fx:id="name" layoutX="187.0" layoutY="191.0" prefHeight="34.0" prefWidth="224.0"/>
+    <Label layoutX="214.0" layoutY="140.0" prefHeight="42.0" prefWidth="157.0" style="-fx-font-weight: bold"
+           text="Enter your name" textAlignment="CENTER" textFill="white">
+        <font>
+            <Font size="20.0"/>
+        </font>
+    </Label>
+    <Button layoutX="257.0" layoutY="244.0" mnemonicParsing="false" onMouseClicked="#readName" prefHeight="28.0"
+            prefWidth="77.0" style="-fx-font-weight: bold" text="PLAY"/>
 </AnchorPane>

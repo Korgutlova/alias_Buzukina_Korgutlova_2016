@@ -119,6 +119,7 @@ public class GameController implements Initializable {
                 int j = 1;
                 int i = 1;
                 changeHeading();
+                Thread.sleep(2000);
                 while (j <= ROUND) {
                     i = 1;
                     while (i <= NUMBER) {
@@ -179,7 +180,7 @@ public class GameController implements Initializable {
     }
 
     private void addMessageToChat(String line) {
-        if (line.startsWith("GAME_WORD ") && heading) {
+        if (line.startsWith("GAME_WORD ")) {
             Platform.runLater(() -> word.setText(line.substring(10)));
         } else if (line.startsWith("TEAM_SCORE ")) {
             String[] array = line.split(" ");

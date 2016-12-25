@@ -38,4 +38,14 @@ public class MenuController implements Initializable{
     public void initialize(URL location, ResourceBundle resources) {
 
     }
+
+    public void clickOnRulesButton(MouseEvent mouseEvent) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/rules.fxml"));
+        AnchorPane root = loader.load();
+        RulesController rulesController = loader.getController();
+        rulesController.setStage(stage);
+        Scene sceneRules = new Scene(root);
+        rulesController.setSceneMenu(stage.getScene());
+        stage.setScene(sceneRules);
+    }
 }

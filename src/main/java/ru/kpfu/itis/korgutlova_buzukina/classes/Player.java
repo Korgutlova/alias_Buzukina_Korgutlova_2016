@@ -39,18 +39,18 @@ public class Player implements Runnable {
                         if (this.equals(headPlayer)) {
                             message = this.name + " : " + message
                                     + "\n" + this.name + " ведущий не имеет право отвечать!"
-                                    + "\n" + team.getName() + " потеряла 1 очко";
+                                    + "\n" + team.getName() + " team потеряла 1 очко";
                             team.degScore();
                         } else {
                             if (!this.team.equals(headPlayer.team)) {
                                 message = this.name + " : " + message + "\n"
                                         + this.name + " игрок из другой команды угадал слово " + message
-                                        + "\n" + team.getName() + " потеряла 1 очко";
+                                        + "\n" + team.getName() + " team потеряла 1 очко";
                                 team.degScore();
                             } else {
                                 message = this.name + " : " + message
                                         + "\n" + this.name + " разгадала слово " + message
-                                        + "\n" + team.getName() + " заработала 1 очко";
+                                        + "\n" + team.getName() + " team заработала 1 очко";
                                 team.addScore();
                             }
                         }
@@ -60,7 +60,7 @@ public class Player implements Runnable {
 
                     } else if (message.equals("GAME_SKIP")) {
                         message = this.name + " пропустил слово " + game.getCurrentWord();
-                        message += "\n" + team.getName() + " потеряла 1 очко";
+                        message += "\n" + team.getName() + " team потеряла 1 очко";
                         team.degScore();
                         message += "\n" + "TEAM_SCORE " + team.getName() + " " + team.getScore();
                         game.changeWord();
